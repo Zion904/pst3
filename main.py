@@ -33,14 +33,25 @@ def main():
     
     while True:
         print("\n===== MSMS v3 (Object-Oriented) =====")
-        # TODO: Create a menu for the new PST3 functions.
+        print("1) Show daily roster")
+        print("2) Check in")
+        print("q) Quit")
+        # Create a menu for the new PST3 functions.
         # Get user input and call the appropriate view function, passing 'manager' to it.
-        choice = input("Enter choice: ")
+        choice = input("Enter choice: ").strip().lower()
         if choice == '1':
-            day = input("Enter day (e.g., Monday): ")
+            day = input("Enter day (e.g., Monday): ").strip()
             front_desk_daily_roster(manager, day)
+        if choice == "2":
+            s_id = input("Student id: ").strip()
+            c_id = input("Course id: ").strip()
+            if not (s_id.isdigit() and c_id.isdigit()):
+                print("Please enter numeric ids.")
+                continue
+            manager.check_in(int(s_id), int(c_id))
         elif choice.lower() == 'q':
             break
-        
+        else:
+            print("invalid choice, please try again.")
 if __name__ == "__main__":
     main()

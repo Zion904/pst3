@@ -65,3 +65,38 @@ class ScheduleManager:
                 if str(lesson.get("day", "")).lower() == str(day).lower():
                     results.append((course, lesson))
         return results
+    
+    
+
+    def check_in(self, student_id, course_id):
+        """Records a student's attendance for a course after validation."""
+        # This implementation remains the same, but it will now function correctly.
+        student = self.find_student_by_id(student_id)
+        course = self.find_course_by_id(course_id)
+        
+        if not student or not course:
+            print("Error: Check-in failed. Invalid Student or Course ID.")
+            return False
+        
+        import datetime
+        timestamp = datetime.datetime.now().isoformat()
+        check_in_record = {"student_id": student_id, "course_id": course_id, "timestamp": timestamp}
+        
+        # This line will now work without causing an AttributeError.
+        self.attendance_log.append(check_in_record)
+        self._save_data() # This will now correctly save the attendance log.
+        print(f"Success: Student {student.name} checked into {course.name}.")
+        return True
+
+    # Also implement find_student_by_id and find_course_by_id helper methods.
+    def find_student_by_id(self, student_id):
+        for s in self.students:
+            if s.user_id == int(student_id):
+                return s
+            return None
+        
+    def find_course_by_id(self, course_id):
+        for c in self.courses:
+            if c.id == int(course_id):
+                return c
+            return None
