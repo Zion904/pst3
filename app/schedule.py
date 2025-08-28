@@ -78,6 +78,10 @@ class ScheduleManager:
             print("Error: Check-in failed. Invalid Student or Course ID.")
             return False
         
+        if course.id not in student.enrolled_course_ids:
+            print("Error: Student is not enrolled in this course.")
+            return False
+        
         import datetime
         timestamp = datetime.datetime.now().isoformat()
         check_in_record = {"student_id": student_id, "course_id": course_id, "timestamp": timestamp}
