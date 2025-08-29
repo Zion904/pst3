@@ -24,12 +24,12 @@ class ScheduleManager:
             for stu_dict in data.get("students", []):
                 self.students.append(StudentUser.from_dict(stu_dict))
 
-            # 老师
+            # teachers
             self.teachers = []
             for teacher_dict in data.get("teachers", []):
                 self.teachers.append(TeacherUser.from_dict(teacher_dict))
 
-            # 课程
+            # courses
             self.courses = []
             for course_dict in data.get("courses", []):
                 self.courses.append(Course.from_dict(course_dict))
@@ -94,18 +94,35 @@ class ScheduleManager:
 
     # Also implement find_student_by_id and find_course_by_id helper methods.
     def find_student_by_id(self, student_id):
+        """
+        Find and return a student object by its ID.
+        Args:
+        student_id (int): The student's ID.
+        """
         for s in self.students:
             if s.user_id == int(student_id):
                 return s
         return None
         
     def find_course_by_id(self, course_id):
+        """
+        Find and return a course object by its ID.
+        Args:
+        student_id (int): The student's ID.
+        """
         for c in self.courses:
             if c.id == int(course_id):
                 return c
         return None
         
     def switch_course(self, student_id, from_course_id, to_course_id):
+        """
+        Switch a student's enrollment from one course to another.
+        Args:
+        student_id (int): The student's ID.
+        from_course_id (int): The current course ID.
+        to_course_id (int): The target course ID.
+        """
         student = self.find_student_by_id(student_id)
         from_c = self.find_course_by_id(from_course_id)
         to_c = self.find_course_by_id(to_course_id)
