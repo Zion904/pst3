@@ -14,7 +14,7 @@ def front_desk_daily_roster(manager, day):
     print(f"{'Time':<8} {'Room':<6} {'Course':<20} {'Teacher':<12}")
     print("-" * 60)
     for course, lesson in items:
-        time = lesson.get("time", "")
+        time = lesson.get("start_time", "")
         room = lesson.get("room", "")
         teacher_name = "Unknown"
         for t in manager.teachers:
@@ -35,6 +35,7 @@ def main():
         print("\n===== MSMS v3 (Object-Oriented) =====")
         print("1) Show daily roster")
         print("2) Check in")
+        print("3) Switch course")
         print("q) Quit")
         # Create a menu for the new PST3 functions.
         # Get user input and call the appropriate view function, passing 'manager' to it.
@@ -42,13 +43,21 @@ def main():
         if choice == '1':
             day = input("Enter day (e.g., Monday): ").strip()
             front_desk_daily_roster(manager, day)
-        if choice == "2":
+        elif choice == "2":
             s_id = input("Student id: ").strip()
             c_id = input("Course id: ").strip()
             if not (s_id.isdigit() and c_id.isdigit()):
                 print("Please enter numeric ids.")
                 continue
             manager.check_in(int(s_id), int(c_id))
+        elif choice == '3': 
+            s_id    = input("Student id: ").strip()
+            from_id = input("From course id: ").strip()
+            to_id   = input("To course id: ").strip()
+            if not (s_id.isdigit() and from_id.isdigit() and to_id.isdigit()):
+                print("Please enter numeric ids.")
+            else:
+                manager.switch_course(int(s_id), int(from_id), int(to_id))
         elif choice.lower() == 'q':
             break
         else:

@@ -97,10 +97,43 @@ class ScheduleManager:
         for s in self.students:
             if s.user_id == int(student_id):
                 return s
-            return None
+        return None
         
     def find_course_by_id(self, course_id):
         for c in self.courses:
             if c.id == int(course_id):
                 return c
-            return None
+        return None
+        
+    def switch_course(self, student_id, from_course_id, to_course_id):
+        student = self.find_student_by_id(student_id)
+        from_c = self.find_course_by_id(from_course_id)
+        to_c = self.find_course_by_id(to_course_id)
+
+        if not student or not from_c or not to_c:
+            print("Error: invalid id(s).")
+            return False
+        
+        if from_c.id == to_c.id:
+            print("Error: from/to are the same course.")
+            return False
+        
+        if from_c.id not in student.enrolled_course_ids:
+            print("Error: student is not currently in the 'from' course.")
+            return False
+        
+        if to_c.id in student.enrolled_course_ids:
+            print("Error: student already in the 'to' course.")
+            return False
+        
+        student.enrolled_course_ids.remove(from_c.id)
+        student.enrolled_course_ids.append(to_c.id)
+
+        if student.user_id in from_c.enrolled_student_ids:
+            from_c.enrolled_student_ids.remove(student.user_id)
+        if student.user_id not in to_c.enrolled_student_ids:
+            to_c.enrolled_student_ids.append(student.user_id)
+
+        self._save_data()
+        print(f"Success: switched {student.name} from {from_c.name} to {to_c.name}.")
+        return True
