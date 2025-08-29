@@ -23,9 +23,6 @@ def front_desk_daily_roster(manager, day):
                 break
         print(f"{time:<8} {room:<6} {course.name:<20} {teacher_name:<12}")
 
-def switch_course(manager, student_id, from_course_id, to_course_id):
-    # TODO: Implement the logic to switch a student by calling methods on the manager.
-    pass
 
 def main():
     """Main function to run the MSMS application."""
